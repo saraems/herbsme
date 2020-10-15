@@ -1,11 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HerbsMe from './HerbsMe/HerbsMe';
+import HerbsMe from './HerbsMe';
 import * as serviceWorker from './serviceWorker';
+import WebFont from 'webfontloader';
+
+WebFont.load({
+  google: {
+    families: ['Montserrat:400,600,700,800', 'Abel:400,600,700,800', 'Comfortaa:400,600,700,800'],
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <HerbsMe />
+      <HerbsMe />
   </React.StrictMode>,
   document.getElementById('root')
 );
