@@ -1,3 +1,4 @@
-// import { RootState } from "src/store/store";
+import { RootState } from "src/store/store";
 
-export const selectProductDialogState = (state: any) => state.herbsMe.productDialogState.isOpen
+export const selectProducts = (state: RootState) => state.herbsMe.products
+export const selectProductDialogState = (state: RootState) => state.herbsMe.productDialogState

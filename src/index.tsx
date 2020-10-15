@@ -2,22 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import HerbsMe from './HerbsMe';
 import * as serviceWorker from './serviceWorker';
-// import WebFont from 'webfontloader';
+import WebFont from 'webfontloader';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 
-
-// WebFont.load({
-//   google: {
-//     families: ['Montserrat:400,600,700,800', 'Abel:400,600,700,800', 'Comfortaa:400,600,700,800'],
-//   },
-// });
+WebFont.load({
+  google: {
+    families: ['Montserrat:400,600,700,800', 'Abel:400,600,700,800', 'Comfortaa:400,600,700,800'],
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <HerbsMe />
-      </Provider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

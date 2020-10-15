@@ -76,16 +76,17 @@ const ActionMenuWrapper = styled.div`
 `
 
 interface IProductCard { 
-  product: IProduct;
+    product: IProduct
+    index: number;
 }
 
-const ProductCard: FC<IProductCard> = ({ product }) => {
+const ProductCard: FC<IProductCard> = ({ product, index }) => {
   const { name, price, categoty, image, origin, harvested, healingProperties, description } = product;
 
   return (
       <BasicCard role="link" tabIndex={0}>
         <ActionMenuWrapper>
-        <ActionMenu/>
+        <ActionMenu index={index}/>
         </ActionMenuWrapper>
         <Img url={image} aria-label={name} />
         <ProductName> {name} </ProductName>

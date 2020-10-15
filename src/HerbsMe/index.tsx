@@ -3,12 +3,13 @@ import ProductCard from './components/product-card';
 import BlankProductCard from './components/product-card/blank-card';
 import TopNavigation from './components/top-nav';
 import styled from 'styled-components';
-import { initialProductsList } from './constants';
 import { IProduct } from './types';
 import ProductDialog from './components/dialogs/product-dialog';
 import InputLabel from '@material-ui/core/InputLabel';
 import PriceFilter from './components/price-filter';
 import SortBySelect from './components/sort-by-select';
+import { selectProducts } from './redux/selectors';
+import { useSelector } from 'react-redux';
 
 const S = {
   PageLayout: styled.div`
@@ -18,8 +19,9 @@ const S = {
   `,
   ItemsActions: styled.div`
     display: flex;
-    width: 100%;
+    width: calc(100%-2rem);
     justify-content: space-between;
+    padding: 2rem 1rem 0;
   `,
   SortByWrapper: styled.div`
     display: flex;
@@ -35,27 +37,29 @@ const S = {
     list-style: none;
     justify-content: space-around;
     flex-wrap: wrap;
-    padding: 2rem 0;
+    padding: 0 0 2rem 0;
     width: 100%;
   `,
   ProductCardWrapper: styled.li``,
 };
 
 const HerbsMe: FC = () => {
+  const products = useSelector(selectProducts);
+
   return (
     <>
       <TopNavigation />
       <ProductDialog />
       <S.PageLayout>
         <S.ItemsActions>
-          <SortBySelect/>
+          <SortBySelect />
           <PriceFilter />
         </S.ItemsActions>
 
         <S.ProductsList>
-          {initialProductsList.map((product: IProduct) => (
-            <S.ProductCardWrapper>
-              <ProductCard product={product} />
+          {products.map((product: IProduct, index: number) => (
+            <S.ProductCardWrapper key={index}>
+              <ProductCard product={product} index={index} />
             </S.ProductCardWrapper>
           ))}
           <BlankProductCard />

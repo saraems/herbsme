@@ -9,25 +9,26 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectProductDialogState } from 'src/HerbsMe/redux/selectors';
+import { herbsMeActions } from 'src/HerbsMe/redux';
 
-  const S = {
-    SelectMenu: styled(Select)`
-      width: 100%;
-    `,
-    SelectLabel: styled(InputLabel)`
-      margin-top: 1rem;
-    `
-  }
+const S = {
+  SelectMenu: styled(Select)`
+    width: 100%;
+  `,
+  SelectLabel: styled(InputLabel)`
+    margin-top: 1rem;
+  `,
+};
 
 const ProductDialog = () => {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const dispatch = useDispatch();
+  const productDialogState = useSelector(selectProductDialogState);
+  const { isOpen } = productDialogState;
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(herbsMeActions.closeProductDialog());
   };
 
   const [category, setCategory] = React.useState('');
@@ -38,28 +39,13 @@ const ProductDialog = () => {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Product</DialogTitle>
+
         <DialogContent>
+          <TextField autoFocus margin="dense" id="name" label="Product Name" fullWidth />
 
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Product Name"
-            fullWidth
-          />
-
-          <TextField
-            margin="dense"
-            id="price"
-            label="Price"
-            type="number"
-            fullWidth
-          />
+          <TextField margin="dense" id="price" label="Price" type="number" fullWidth />
 
           <S.SelectLabel id="demo-simple-select-label">Category</S.SelectLabel>
           <S.SelectMenu
@@ -73,43 +59,17 @@ const ProductDialog = () => {
             <MenuItem value={'Fruit'}>Fruit</MenuItem>
           </S.SelectMenu>
 
-          <TextField
-            margin="dense"
-            id="image"
-            label="Image url"
-            fullWidth
-          />
+          <TextField margin="dense" id="image" label="Image url" fullWidth />
 
-          <TextField
-            margin="dense"
-            id="price"
-            label="Region of origin"
-            fullWidth
-          />
+          <TextField margin="dense" id="price" label="Region of origin" fullWidth />
 
-          <TextField
-            margin="dense"
-            id="price"
-            label="Harvest year"
-            type="number"
-            fullWidth
-          />
+          <TextField margin="dense" id="price" label="Harvest year" type="number" fullWidth />
 
-          <TextField
-            margin="dense"
-            id="price"
-            label="Healing properties"
-            fullWidth
-          />
+          <TextField margin="dense" id="price" label="Healing properties" fullWidth />
 
-          <TextField
-            margin="dense"
-            id="description"
-            label="Description"
-            fullWidth
-          />
-
+          <TextField margin="dense" id="description" label="Description" fullWidth />
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
@@ -121,6 +81,6 @@ const ProductDialog = () => {
       </Dialog>
     </div>
   );
-}
+};
 
 export default ProductDialog;

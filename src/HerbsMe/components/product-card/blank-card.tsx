@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { herbsMeActions } from 'src/HerbsMe/redux';
 
 const BasicCard = styled.div`
   display: flex;
@@ -19,8 +21,12 @@ const BasicCard = styled.div`
 `;
 
 const BlankProductCard: FC = () => {
+  const dispatch = useDispatch();
+
+  const openProductDialog = () => dispatch(herbsMeActions.openProductDialog());
+
   return (
-    <BasicCard tabIndex={0} onClick={() => console.log('New product added! ')}>
+    <BasicCard tabIndex={0} onClick={openProductDialog}>
       + Add new product
     </BasicCard>
   );
