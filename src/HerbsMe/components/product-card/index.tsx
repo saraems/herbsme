@@ -1,9 +1,12 @@
 import React, {FC} from 'react';
 import { IProduct } from '../../types';
 import styled from 'styled-components';
+import ActionMenu from './action-menu'
 
+const currency = 'NOK/100g'
 
 const BasicCard = styled.div`
+  position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -66,27 +69,32 @@ const Description = styled.div`
   text-overflow: ellipsis;
 `
 
+const ActionMenuWrapper = styled.div`
+  position: absolute;
+  top: 4px;
+  right: 4px;
+`
 
 interface IProductCard { 
   product: IProduct;
 }
-
-const currency = 'NOK/100g'
 
 const ProductCard: FC<IProductCard> = ({ product }) => {
   const { name, price, categoty, image, origin, harvested, healingProperties, description } = product;
 
   return (
       <BasicCard role="link" tabIndex={0}>
-      <Img url={image} aria-label={name} />
-      <ProductName> {name} </ProductName>
-      <Summarry>
-        {categoty} • {harvested} • {origin}
-      </Summarry>
-      <HealingProperties>{healingProperties}</HealingProperties>
-      <Price> {price} {currency} </Price>
-
-      <Description>{description}</Description>
+        <ActionMenuWrapper>
+        <ActionMenu/>
+        </ActionMenuWrapper>
+        <Img url={image} aria-label={name} />
+        <ProductName> {name} </ProductName>
+        <Summarry>
+            {categoty} • {harvested} • {origin}
+        </Summarry>
+        <HealingProperties>{healingProperties}</HealingProperties>
+        <Price> {price} {currency} </Price>
+        <Description>{description}</Description>
     </BasicCard>
   );
 };
