@@ -4,6 +4,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import { ProductAccessor } from 'src/HerbsMe/types';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectProductsListAccessor } from 'src/HerbsMe/redux/selectors';
+import { herbsMeActions } from 'src/HerbsMe/redux';
 
 const S = {
   SortByWrapper: styled.div`
@@ -18,16 +21,17 @@ const S = {
 };
 
 const SortBySelect: FC = () => {
-  const [category, setCategory] = React.useState('name');
+    const dispatch = useDispatch();
+    const accessor = useSelector(selectProductsListAccessor);
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setCategory(event.target.value as string);
-  };
-
+    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+      dispatch(herbsMeActions.sortProducts(event.target.value as ProductAccessor))
+    };
+    
   return (
     <S.SortByWrapper>
       <S.SelectLabel id="demo-simple-select-label">Sort by: </S.SelectLabel>
-      <Select labelId="demo-simple-select-label" id="demo-simple-select" value={category} onChange={handleChange}>
+      <Select labelId="demo-simple-select-label" id="demo-simple-select" value={accessor} onChange={handleChange}>
         <MenuItem value={ProductAccessor.name}>Name</MenuItem>
         <MenuItem value={ProductAccessor.price}>Price</MenuItem>
         <MenuItem value={ProductAccessor.categoty}>Categoty</MenuItem>

@@ -3,6 +3,7 @@ import produce from 'immer';
 import { Reducer } from 'redux';
 import { IProduct, ProductAccessor } from '../types';
 import { initialProductsList } from '../constants';
+import { sortBy } from 'lodash';
 
 export const OPEN_PRODUCT_DIALOG = 'herbsMe/OPEN_PRODUCT_DIALOG';
 export const CLOSE_PRODUCT_DIALOG = 'herbsMe/CLOSE_PRODUCT_DIALOG';
@@ -77,6 +78,12 @@ export const herbsMeStateReducer: Reducer<typeof defaultState> = (
       }
       case UPDATE_PRODUCT: {
         draft.products[action.payload.index] = action.payload.product;
+        return;
+      }
+      case SORT_PRODUCTS_LIST: {
+        const { accessor } = action.payload;
+        draft.productsListState.sortby = accessor;
+        draft.products = sortBy(draft.products, [accessor]);
         return;
       }
       default: {
