@@ -8,7 +8,7 @@ import ProductDialog from './components/dialogs/product-dialog';
 import InputLabel from '@material-ui/core/InputLabel';
 import PriceFilter from './components/price-filter';
 import SortBySelect from './components/sort-by-select';
-import { selectProducts } from './redux/selectors';
+import { selectProductsList } from './redux/selectors';
 import { useSelector } from 'react-redux';
 
 const S = {
@@ -44,7 +44,8 @@ const S = {
 };
 
 const HerbsMe: FC = () => {
-  const products = useSelector(selectProducts);
+  const productsList = useSelector(selectProductsList);
+  const showBlankCard = productsList.length < 8;
 
   return (
     <>
@@ -57,12 +58,12 @@ const HerbsMe: FC = () => {
         </S.ItemsActions>
 
         <S.ProductsList>
-          {products.map((product: IProduct, index: number) => (
+          {showBlankCard && <BlankProductCard />}
+          {productsList.map((product: IProduct, index: number) => (
             <S.ProductCardWrapper key={index}>
               <ProductCard product={product} index={index} />
             </S.ProductCardWrapper>
           ))}
-          <BlankProductCard />
         </S.ProductsList>
       </S.PageLayout>
     </>

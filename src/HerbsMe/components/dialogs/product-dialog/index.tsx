@@ -12,8 +12,8 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProductDialogState } from 'src/HerbsMe/redux/selectors';
 import { herbsMeActions } from 'src/HerbsMe/redux';
-import { useFormField, useNumberFormField } from './hooks';
 import { IProduct } from 'src/HerbsMe/types';
+import { useNumberFormField, useFormField } from 'src/HerbsMe/hooks';
 
 const S = {
   SelectMenu: styled(Select)`
@@ -24,13 +24,13 @@ const S = {
   `,
 };
 
-const productTemplate = {
+const productTemplate: any = {
   name: '',
-  price: 0,
+  price: null,
   categoty: '',
   image: '',
   origin: '',
-  harvested: 0,
+  harvested: null,
   healingProperties: '',
   description: '',
 };
@@ -109,7 +109,7 @@ const ProductDialog: FC<IProductDialog> = ({ productDef}) => {
             <TextField margin="dense" id="origin" label="Region of origin" fullWidth {...originField} />
             <TextField margin="dense" id="harvested" label="Harvest year" type="number" fullWidth {...harvestedField} />
             <TextField margin="dense" id="healingProperties" label="Healing properties" fullWidth {...healingPropertiesField} />
-            <TextField margin="dense" id="description" label="Description" fullWidth multiline {...descriptionField} />
+            <TextField margin="dense" id="description" label="Description" fullWidth multiline rowsMax={4} {...descriptionField} />
           </form>
         </DialogContent>
 

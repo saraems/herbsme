@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import WebFont from 'webfontloader';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import { StylesProvider } from '@material-ui/core/styles';
 
 WebFont.load({
   google: {
@@ -15,7 +16,9 @@ WebFont.load({
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <HerbsMe />
+      <StylesProvider injectFirst>
+        <HerbsMe />
+        </StylesProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
