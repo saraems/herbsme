@@ -6,8 +6,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { useDispatch } from 'react-redux';
 import { herbsMeActions } from 'src/HerbsMe/redux';
 
-interface IActionMenu { 
-    index: number;
+interface IActionMenu {
+  index: number;
 }
 
 const ActionMenu: FC<IActionMenu> = ({ index }) => {
@@ -18,9 +18,18 @@ const ActionMenu: FC<IActionMenu> = ({ index }) => {
     setAnchorEl(event.currentTarget);
   };
 
-    const handleClose = () => {
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openEditProductDialog = () => {
     setAnchorEl(null);
     dispatch(herbsMeActions.openProductDialog(index));
+  };
+
+  const openDeleteProductDialog = () => {
+    setAnchorEl(null);
+    dispatch(herbsMeActions.openDeleteDialog(index));
   };
 
   return (
@@ -30,8 +39,8 @@ const ActionMenu: FC<IActionMenu> = ({ index }) => {
       </IconButton>
 
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem onClick={openEditProductDialog}>Edit</MenuItem>
+        <MenuItem onClick={openDeleteProductDialog}>Delete</MenuItem>
       </Menu>
     </div>
   );

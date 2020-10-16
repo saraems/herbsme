@@ -10,6 +10,7 @@ import PriceFilter from './components/price-filter';
 import SortBySelect from './components/sort-by-select';
 import { selectProductsList } from './redux/selectors';
 import { useSelector } from 'react-redux';
+import ConfirmationDialog from './components/dialogs/confirmation-dialog';
 
 const S = {
   PageLayout: styled.div`
@@ -51,6 +52,7 @@ const HerbsMe: FC = () => {
     <>
       <TopNavigation />
       <ProductDialog />
+      <ConfirmationDialog/>
       <S.PageLayout>
         <S.ItemsActions>
           <SortBySelect />
