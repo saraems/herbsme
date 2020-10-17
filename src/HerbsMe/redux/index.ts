@@ -26,9 +26,8 @@ export const herbsMeActions = {
   setPriceRange: (priceRange: IPriceRange) => createAction(SET_PRICE_RANGE, { priceRange }),
   clearPriceRange: () => createAction(CLEAR_PRICE_RANGE),
   openDeleteDialog: (index?: number) => createAction(OPEN_DELETE_DIALOG, { index }),
-    closeDeleteDialog: () => createAction(CLOSE_DELETE_DIALOG),
-    deleteProduct: (index: number) => createAction(DELETE_PRODUCT, { index }),
-
+  closeDeleteDialog: () => createAction(CLOSE_DELETE_DIALOG),
+  deleteProduct: (index: number) => createAction(DELETE_PRODUCT, { index }),
 };
 
 export type HerbsMeAction = ActionsUnion<typeof herbsMeActions>;
@@ -105,10 +104,15 @@ export const herbsMeStateReducer: Reducer<typeof defaultState> = (
       case SET_PRICE_RANGE: {
         const { minPrice, maxPrice } = action.payload.priceRange;
         draft.productsListState.priceRange = action.payload.priceRange;
-        draft.productsListState.productsList = filter(
-          draft.productsListState.productsList,
-          (o) => o.price <= maxPrice && o.price >= minPrice
-        );
+        draft.productsListState.productsList = filter(draft.productsListState.productsList, (o) => {
+          if (!!maxPrice && !minPrice) {
+            return o.price <= maxPrice;
+          } else if (!maxPrice && !!minPrice) {
+            return o.price >= minPrice;
+          } else {
+            return o.price <= maxPrice && o.price >= minPrice;
+          }
+        });
         return;
       }
       case CLEAR_PRICE_RANGE: {
@@ -125,14 +129,13 @@ export const herbsMeStateReducer: Reducer<typeof defaultState> = (
         draft.deleteConfirmationDialogState.isOpen = false;
         draft.deleteConfirmationDialogState.currentIndex = undefined;
         return;
-        }
-        case DELETE_PRODUCT: {
-        const { index } = action.payload
-        draft.productsListState.productsList.splice(index, 1)
+      }
+      case DELETE_PRODUCT: {
+        const { index } = action.payload;
+        draft.productsListState.productsList.splice(index, 1);
         return;
-        }
-            
-            
+      }
+
       default: {
         return state;
       }

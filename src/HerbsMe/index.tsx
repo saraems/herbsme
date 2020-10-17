@@ -9,8 +9,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import PriceFilter from './components/price-filter';
 import SortBySelect from './components/sort-by-select';
 import { selectProductsList } from './redux/selectors';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ConfirmationDialog from './components/dialogs/confirmation-dialog';
+import { CustomHerbsMeButton } from './components/custom-button/styles';
+import { herbsMeActions } from './redux';
 
 const S = {
   PageLayout: styled.div`
@@ -22,7 +24,7 @@ const S = {
     display: flex;
     width: calc(100%-2rem);
     justify-content: space-between;
-    padding: 2rem 1rem 0;
+    padding: 1rem 1rem 0;
   `,
   SortByWrapper: styled.div`
     display: flex;
@@ -42,30 +44,51 @@ const S = {
     width: 100%;
   `,
   ProductCardWrapper: styled.li``,
+  AddProductWrapper: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: calc(100%-2rem);
+    padding: 1rem 1rem 0;
+  `,
+  AddProductBtn: styled(CustomHerbsMeButton)`
+    height: 50px;
+    width: 150px;
+    margin: 0;
+    font-weight: bold;
+    background-color: #1c890a;
+  `,
 };
-
 const HerbsMe: FC = () => {
+  const dispatch = useDispatch();
+
   const productsList = useSelector(selectProductsList);
   const showBlankCard = productsList.length < 8;
+
+  const openProductDialog = () => dispatch(herbsMeActions.openProductDialog());
 
   return (
     <>
       <TopNavigation />
       <ProductDialog />
-      <ConfirmationDialog/>
+      <ConfirmationDialog />
       <S.PageLayout>
+        <S.AddProductWrapper>
+          <S.AddProductBtn onClick={openProductDialog}>Add Product</S.AddProductBtn>
+        </S.AddProductWrapper>
+
         <S.ItemsActions>
           <SortBySelect />
           <PriceFilter />
         </S.ItemsActions>
 
         <S.ProductsList>
-          {showBlankCard && <BlankProductCard />}
           {productsList.map((product: IProduct, index: number) => (
             <S.ProductCardWrapper key={index}>
               <ProductCard product={product} index={index} />
             </S.ProductCardWrapper>
           ))}
+        {showBlankCard && <BlankProductCard />}
         </S.ProductsList>
       </S.PageLayout>
     </>
