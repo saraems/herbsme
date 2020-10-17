@@ -1,5 +1,3 @@
-# HerbsMe - project nr 2 | ZAI OKNO 2020
-
 ## Instructions for installing and starting the application
 
 **Required:** Node.js version > 10.15.0, yarn version > 1.10.0
@@ -10,7 +8,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-For more script, how to for e.g. make deployment to production, check: [React documentation](https://reactjs.org/).
+For more script, how to for e.g. make deployment to production:[documentation](https://reactjs.org/).
 
 ## Frameworks and libraries
 
@@ -40,7 +38,7 @@ WbFontLoader is a library which allows to load globally custom fonts to the proj
 - **lodash** <br />
 Lodash provides many utility functions for common programming tasks. It makes coding in JavaScript easier and cleaner. Instead of writing common functions, again and again, the task can be accomplished with a single line of code. Within this project it contributed to filtering and sorting products list. 
 
-Rest of the application's dependencies are builded-in and provided by default in react-app (for e.g testing-libraries). 
+ <br /> Rest of the application's dependencies are builded-in and provided by default in react-app (for e.g testing-libraries). 
 
 ## Code description
 
@@ -65,8 +63,3 @@ Redux state has its own dedicated folder, as it is used by all HerbsMe module co
 ![HerbsMe edit view](public/edit-product.png?raw=true "HerbsMe edit product")
 ![HerbsMe delete view](public/delete-product.png?raw=true "HerbsMe delete product")
 ![HerbsMe add view](public/add-new-product.png?raw=true "HerbsMe add new product")
-
-
-______________
-
-To learn more about React check out: [documentation](https://reactjs.org/).
