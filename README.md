@@ -1,6 +1,6 @@
 ## Instructions for installing and starting the application
 
-**Required:** Node.js version > 10.15.0, yarn version > 1.10.0
+**Required:** Node.js version > 10.15.0, yarn version > 1.10.0 <br />
 In main directory run: **`yarn`** or **`npm i`** to install all dependecies. 
 
 After instalation to run the app in the development mode run: **`yarn start`** or **`npm start`**<br />
@@ -72,3 +72,5 @@ Redux state has its own dedicated folder, as it is used by all HerbsMe module co
 - improve adding new product flow by adding `last-modifiacation-date` field to the product and after adding new sort products by this accessor
 - add error messages to ProductDialog for required inputs
 - open edit ProductDialog on product card clicked
+- add descending and ascending sorting options
+- add page logo used in favicon.ico
