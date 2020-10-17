@@ -9,9 +9,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectProductDialogState } from 'src/HerbsMe/redux/selectors';
-import { herbsMeActions } from 'src/HerbsMe/redux';
 import { IProduct } from 'src/HerbsMe/types';
 import { useNumberFormField, useFormField } from 'src/HerbsMe/hooks';
 
@@ -22,17 +19,10 @@ const S = {
   SelectLabel: styled(InputLabel)`
     margin-top: 1rem;
   `,
-};
-
-const productTemplate: any = {
-  name: '',
-  price: null,
-  categoty: '',
-  image: '',
-  origin: '',
-  harvested: null,
-  healingProperties: '',
-  description: '',
+  SubTitle: styled.span`
+    font-size: 0.875rem;
+    color: #b2b2b2;
+  `,
 };
 
 enum ProductCategories {
@@ -42,18 +32,14 @@ enum ProductCategories {
   root = 'Root',
 }
 
-interface IProductDialog { 
-  productDef?: IProduct;
+interface IProductDialog {
+  product?: IProduct;
+  onConfirm: Function;
+  onClose: () => void;
 }
 
-const ProductDialog: FC<IProductDialog> = ({ productDef}) => {
-  const dispatch = useDispatch();
-  const productDialogState = useSelector(selectProductDialogState);
-  const { isOpen, currentIndex, product } = productDialogState;
-
-
-  const initialProduct = !!currentIndex && !!product ? product : productTemplate
-  const { name, price, categoty, image, origin, harvested, healingProperties, description } = initialProduct;
+const ProductCoreDialog: FC<IProductDialog> = ({ product, onConfirm, onClose }) => {
+  const { name, price, categoty, image, origin, harvested, healingProperties, description } = product;
 
   const nameField = useFormField(name);
   const priceField = useNumberFormField(price);
@@ -64,33 +50,30 @@ const ProductDialog: FC<IProductDialog> = ({ productDef}) => {
   const healingPropertiesField = useFormField(healingProperties);
   const descriptionField = useFormField(description);
 
-    const handleClose = () => {
-    dispatch(herbsMeActions.closeProductDialog());
-    };
-  
-  const addingIsDisabled = !nameField && !priceField && !originField && !imageField;
+  const isDiasabled = !nameField.value || !priceField.value || !categotyField.value || !harvestedField.value;
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(
-      herbsMeActions.addNewProduct({
-        name: nameField.value,
-        price: priceField.value,
-        categoty: categotyField.value,
-        image: imageField.value,
-        origin: originField.value,
-        harvested: harvestedField.value,
-        healingProperties: healingPropertiesField.value,
-        description: descriptionField.value,
-      })
-    );
-    dispatch(herbsMeActions.closeProductDialog());
+    onConfirm({
+      name: nameField.value,
+      price: priceField.value,
+      categoty: categotyField.value,
+      image: imageField.value,
+      origin: originField.value,
+      harvested: harvestedField.value,
+      healingProperties: healingPropertiesField.value,
+      description: descriptionField.value,
+    });
+    onClose();
   };
 
   return (
     <div>
-      <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Product</DialogTitle>
+      <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">
+          Product <br />
+          <S.SubTitle>* Product name, harvest year, price and category are required fields</S.SubTitle>
+        </DialogTitle>
 
         <DialogContent>
           <form>
@@ -108,16 +91,30 @@ const ProductDialog: FC<IProductDialog> = ({ productDef}) => {
             <TextField margin="dense" id="image" label="Image url" fullWidth {...imageField} />
             <TextField margin="dense" id="origin" label="Region of origin" fullWidth {...originField} />
             <TextField margin="dense" id="harvested" label="Harvest year" type="number" fullWidth {...harvestedField} />
-            <TextField margin="dense" id="healingProperties" label="Healing properties" fullWidth {...healingPropertiesField} />
-            <TextField margin="dense" id="description" label="Description" fullWidth multiline rowsMax={4} {...descriptionField} />
+            <TextField
+              margin="dense"
+              id="healingProperties"
+              label="Healing properties"
+              fullWidth
+              {...healingPropertiesField}
+            />
+            <TextField
+              margin="dense"
+              id="description"
+              label="Description"
+              fullWidth
+              multiline
+              rowsMax={7}
+              {...descriptionField}
+            />
           </form>
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={onClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} color="primary" type="submit" disabled={!addingIsDisabled}>
+          <Button onClick={handleSubmit} color="primary" type="submit" disabled={isDiasabled}>
             Done
           </Button>
         </DialogActions>
@@ -126,4 +123,4 @@ const ProductDialog: FC<IProductDialog> = ({ productDef}) => {
   );
 };
 
-export default ProductDialog;
+export default ProductCoreDialog;

@@ -5,8 +5,10 @@ import { IProduct, ProductAccessor } from '../types';
 import { initialProductsList } from '../constants';
 import { sortBy, filter } from 'lodash';
 
-export const OPEN_PRODUCT_DIALOG = 'herbsMe/OPEN_PRODUCT_DIALOG';
-export const CLOSE_PRODUCT_DIALOG = 'herbsMe/CLOSE_PRODUCT_DIALOG';
+export const OPEN_EDIT_PRODUCT_DIALOG = 'herbsMe/OPEN_EDIT_PRODUCT_DIALOG';
+export const CLOSE_EDIT_PRODUCT_DIALOG = 'herbsMe/CLOSE_EDIT_PRODUCT_DIALOG';
+export const OPEN_ADD_PRODUCT_DIALOG = 'herbsMe/OPEN_ADD_PRODUCT_DIALOG';
+export const CLOSE_ADD_PRODUCT_DIALOG = 'herbsMe/CLOSE_ADD_PRODUCT_DIALOG';
 export const ADD_NEW_PRODUCT = 'herbsMe/ADD_NEW_PRODUCT';
 export const UPDATE_PRODUCT = 'herbsMe/UPDATE_PRODUCT';
 export const DELETE_PRODUCT = 'herbsMe/DELETE_PRODUCT';
@@ -18,8 +20,10 @@ export const OPEN_DELETE_DIALOG = 'herbsMe/OPEN_DELETE_DIALOG';
 export const CLOSE_DELETE_DIALOG = 'herbsMe/CLOSE_DELETE_DIALOG';
 
 export const herbsMeActions = {
-  openProductDialog: (index?: number) => createAction(OPEN_PRODUCT_DIALOG, { index }),
-  closeProductDialog: () => createAction(CLOSE_PRODUCT_DIALOG),
+  openEditProductDialog: (index?: number) => createAction(OPEN_EDIT_PRODUCT_DIALOG, { index }),
+  closeEditProductDialog: () => createAction(CLOSE_EDIT_PRODUCT_DIALOG),
+  openAddProductDialog: () => createAction(OPEN_ADD_PRODUCT_DIALOG),
+  closeAddProductDialog: () => createAction(CLOSE_ADD_PRODUCT_DIALOG),
   addNewProduct: (product: IProduct) => createAction(ADD_NEW_PRODUCT, { product }),
   updateProduct: (product: IProduct, index: number) => createAction(UPDATE_PRODUCT, { product, index }),
   sortProducts: (accessor: ProductAccessor) => createAction(SORT_PRODUCTS_LIST, { accessor }),
@@ -33,7 +37,8 @@ export const herbsMeActions = {
 export type HerbsMeAction = ActionsUnion<typeof herbsMeActions>;
 
 interface IHerbsMeState {
-  productDialogState: IProductDialogState;
+  addProductDialogState: IProductDialogState;
+  editProductDialogState: IProductDialogState;
   deleteConfirmationDialogState: IdeleteConfirmationDialog;
   products: IProduct[];
   productsListState: IProductsListState;
@@ -57,11 +62,10 @@ interface IProductsListState {
 interface IProductDialogState {
   isOpen: boolean;
   currentIndex?: number;
-  product?: IProduct;
-  productsListState?: IProductsListState;
 }
 const defaultState: IHerbsMeState = {
-  productDialogState: { isOpen: false, currentIndex: undefined, product: undefined },
+  addProductDialogState: { isOpen: false },
+  editProductDialogState: { isOpen: false, currentIndex: undefined },
   deleteConfirmationDialogState: { isOpen: false, currentIndex: undefined },
   products: initialProductsList,
   productsListState: { sortby: ProductAccessor.name, productsList: initialProductsList },
@@ -73,26 +77,31 @@ export const herbsMeStateReducer: Reducer<typeof defaultState> = (
 ): IHerbsMeState =>
   produce(state, (draft) => {
     switch (action.type) {
-      case OPEN_PRODUCT_DIALOG: {
-        draft.productDialogState.isOpen = true;
-        if (action.payload.index) {
-          draft.productDialogState.currentIndex = action.payload.index;
-          draft.productDialogState.product = draft.products[action.payload.index];
-        }
+      case OPEN_EDIT_PRODUCT_DIALOG: {
+        draft.editProductDialogState.currentIndex = action.payload.index;
+        draft.editProductDialogState.isOpen = true;
         return;
       }
-      case CLOSE_PRODUCT_DIALOG: {
-        draft.productDialogState.isOpen = false;
-        draft.productDialogState.product = undefined;
+      case CLOSE_EDIT_PRODUCT_DIALOG: {
+        draft.editProductDialogState.currentIndex = undefined;
+        draft.editProductDialogState.isOpen = false;
+        return;
+      }
+      case OPEN_ADD_PRODUCT_DIALOG: {
+        draft.addProductDialogState.isOpen = true;
+        return;
+      }
+      case CLOSE_ADD_PRODUCT_DIALOG: {
+        draft.addProductDialogState.isOpen = false;
         return;
       }
       case ADD_NEW_PRODUCT: {
-        const currentProducts = state.products;
-        draft.products = [action.payload.product, ...currentProducts];
+        const currentProducts = draft.productsListState.productsList;
+        draft.productsListState.productsList = [action.payload.product, ...currentProducts];
         return;
       }
       case UPDATE_PRODUCT: {
-        draft.products[action.payload.index] = action.payload.product;
+        draft.productsListState.productsList[action.payload.index] = action.payload.product;
         return;
       }
       case SORT_PRODUCTS_LIST: {
@@ -121,13 +130,13 @@ export const herbsMeStateReducer: Reducer<typeof defaultState> = (
         return;
       }
       case OPEN_DELETE_DIALOG: {
-        draft.deleteConfirmationDialogState.isOpen = true;
         draft.deleteConfirmationDialogState.currentIndex = action.payload.index;
+        draft.deleteConfirmationDialogState.isOpen = true;
         return;
       }
       case CLOSE_DELETE_DIALOG: {
-        draft.deleteConfirmationDialogState.isOpen = false;
         draft.deleteConfirmationDialogState.currentIndex = undefined;
+        draft.deleteConfirmationDialogState.isOpen = false;
         return;
       }
       case DELETE_PRODUCT: {
@@ -135,7 +144,6 @@ export const herbsMeStateReducer: Reducer<typeof defaultState> = (
         draft.productsListState.productsList.splice(index, 1);
         return;
       }
-
       default: {
         return state;
       }

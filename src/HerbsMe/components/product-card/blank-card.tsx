@@ -23,10 +23,10 @@ const BasicCard = styled.div`
 const BlankProductCard: FC = () => {
   const dispatch = useDispatch();
 
-  const openProductDialog = () => dispatch(herbsMeActions.openProductDialog());
+  const openAddProductDialog = () => dispatch(herbsMeActions.openAddProductDialog());
 
   return (
-    <BasicCard tabIndex={0} onClick={openProductDialog}>
+    <BasicCard tabIndex={0} onClick={openAddProductDialog}>
       + Add new product
     </BasicCard>
   );

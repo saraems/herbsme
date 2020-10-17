@@ -4,7 +4,6 @@ import BlankProductCard from './components/product-card/blank-card';
 import TopNavigation from './components/top-nav';
 import styled from 'styled-components';
 import { IProduct } from './types';
-import ProductDialog from './components/dialogs/product-dialog';
 import InputLabel from '@material-ui/core/InputLabel';
 import PriceFilter from './components/price-filter';
 import SortBySelect from './components/sort-by-select';
@@ -13,6 +12,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import ConfirmationDialog from './components/dialogs/confirmation-dialog';
 import { CustomHerbsMeButton } from './components/custom-button/styles';
 import { herbsMeActions } from './redux';
+import EditProductDialog from './components/dialogs/product-dialog/edit-product-dialog';
+import AddProductDialog from './components/dialogs/product-dialog/add-product-dialog';
 
 const S = {
   PageLayout: styled.div`
@@ -61,20 +62,20 @@ const S = {
 };
 const HerbsMe: FC = () => {
   const dispatch = useDispatch();
-
   const productsList = useSelector(selectProductsList);
   const showBlankCard = productsList.length < 8;
 
-  const openProductDialog = () => dispatch(herbsMeActions.openProductDialog());
+  const openAddProductDialog = () => dispatch(herbsMeActions.openAddProductDialog());
 
   return (
     <>
       <TopNavigation />
-      <ProductDialog />
       <ConfirmationDialog />
+      <EditProductDialog />
+      <AddProductDialog />
       <S.PageLayout>
         <S.AddProductWrapper>
-          <S.AddProductBtn onClick={openProductDialog}>Add Product</S.AddProductBtn>
+          <S.AddProductBtn onClick={openAddProductDialog}>Add Product</S.AddProductBtn>
         </S.AddProductWrapper>
 
         <S.ItemsActions>
@@ -88,7 +89,7 @@ const HerbsMe: FC = () => {
               <ProductCard product={product} index={index} />
             </S.ProductCardWrapper>
           ))}
-        {showBlankCard && <BlankProductCard />}
+          {showBlankCard && <BlankProductCard />}
         </S.ProductsList>
       </S.PageLayout>
     </>

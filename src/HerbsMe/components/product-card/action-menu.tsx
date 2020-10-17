@@ -24,7 +24,7 @@ const ActionMenu: FC<IActionMenu> = ({ index }) => {
 
   const openEditProductDialog = () => {
     setAnchorEl(null);
-    dispatch(herbsMeActions.openProductDialog(index));
+    dispatch(herbsMeActions.openEditProductDialog(index));
   };
 
   const openDeleteProductDialog = () => {
