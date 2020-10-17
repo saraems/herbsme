@@ -1,44 +1,62 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Instructions for installing and starting the application
 
-## Available Scripts
+**Required:** Node.js version > 10.15.0, yarn version > 1.10.0
+In main directory run: **`yarn`** or **`npm i`** to install all dependecies. 
 
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.<br />
+After instalation to run the app in the development mode run: **`yarn start`** or **`npm start`**
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `yarn test`
+For more script, how to for e.g. make deployment to production, check: [React documentation](https://reactjs.org/).
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Frameworks and libraries
 
-### `yarn build`
+To create this Single Page Application(SPA) was used React freamwork with TypeScript. React, besause it's one of the most popular frameworks for frond-end development and also has great, hudge community which provides many solution and support while error handling and bugs reporting what made React a stable tool over years. In other hand it's personall choice of developer as React reminds more functional programing than Angular, which is closer to object oriented programing(OOP) paradigma.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+TypeScript is used to have control over types, decrease number of errors and improve redability of the code. 
+All used dependencies for this project can be found in `package.json` file. 
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- Redux
+Redux is a gloabal state container for the aplication, even that this project is SPA and app state is not so complicated it's undisputed advantage in improving code redability while all state doesn't come from uber parent component and doesn't have to be passed to all chldren, grandchildren and back to parent which might introduce uneccesary complications in handling smoot rendering. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- immer
+Immer is a developers tool used to prevent mutating application's global state stored in Redux while introducing action which are meant to change application's state. Immutability is a requirement of Redux to might use state's history. Immer is an easy way to produce new application's state. 
 
-### `yarn eject`
+- martin_hotell/rex-tils
+Rex-tils is a libraary used for improving Redux types safety to be able to use Redux within TypeScript with it's fulll types-check potential. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Material-UI (icons, core)
+Material-UI provides simple, redy to use components as Tables, Dialogs, Buttons etc. which doesn't have to be created from scratch. Using it speeds up development while custom design is not a crucial part of the project, which is a case in this project. 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Styled-components
+Styled-components tool which allows to create css in .js, .ts and tsx files as JS variables. A comfortble library to keep application modular and decrease number of imports eliminating .css and .scss files usage. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- WbFontLoader
+WbFontLoader is a library which allows to load globally custom fonts to the project.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- lodash
+Lodash provides many utility functions for common programming tasks. It makes coding in JavaScript easier and cleaner. Instead of writing common functions, again and again, the task can be accomplished with a single line of code. Within this project it contributed to filtering and sorting products list. 
 
-## Learn More
+Rest of the application's dependencies are builded-in and provided by default in react-app (for e.g testing-libraries). 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Code description
+
+The main app file is placed in `/src/index.tsx`. The file renders core, parent component - HerbsMe - enwrapped in Redux store provider and StylesProvider. Redux provider allows it's childrem to use global state whereas StylesProvider allows overwritting Material-UI components style with custom css.
+
+Global application's store is kept in a separate folder under `/src/store` path. This architecture decision is made to allow applications growth while adding new modules next to HerbsMe page. New module's reducers can be easily combined and added to the global store. 
+
+### Main HerbsMe component
+![HerbsMe component's structure](public/HerbsMe-structure.png?raw=true "HerbsMe component")
+
+HerbsMe component is placed in `/src/HerbsMe/index.tsx` it contains dialogs, top navigation, filters and sorting options for products. It also renders products cards returned in mapping of **productsList** table. Table of products is hardcoded in the application under `/src/HerbsMe/constants.ts` and represents the initial state of protucts which can be modified within the app. Main component's directory has also `types.ts` files which has reusable types across this directory. Lsst but not least in `hooks.ts` are a helper for producing local inputs state, those methods are universal so they have been placed heigher in files structure to enable it's exstraction if needed. 
+
+Structure of components is modular. Reusable chilldren components as **ProductCard**, **ConfirmationDialog**, **PriceFilter** are exported to components folder to increase parents file readibility and provide the possiblity to reuse children in other places in the app if needed in the future.
+
+Redux state has its own dedicated folder, as it is used by all HerbsMe module components. Its placement provides easy access to state for all of them. `/src/HerbsMe/redux/selectors.ts` contains selectors for state's specific values while `index.ts` has action creators and reducer which are chnging the application state. 
+
+### Sample screenshots
+
+
 
 To learn React, check out the [React documentation](https://reactjs.org/).
