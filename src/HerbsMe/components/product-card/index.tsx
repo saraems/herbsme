@@ -23,7 +23,7 @@ const Img = styled.div<{ url: string }>`
   height: 200px;
   width: 200px;
   background-image: ${({ url }) => `url('${url}')`};
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-color: #f9f9f9;

@@ -33,7 +33,7 @@ const ConfirmationDialog: FC = () => {
   const dispatch = useDispatch();
   const confirmationDialogState = useSelector(selectConfirmeDeleteDialogState);
   const { isOpen, currentIndex } = confirmationDialogState;
-  const productName = useSelector(selectProductsList)[currentIndex];
+  const productName = useSelector(selectProductsList)[currentIndex]?.name;
 
   const handleClose = () => {
     dispatch(herbsMeActions.closeDeleteDialog());

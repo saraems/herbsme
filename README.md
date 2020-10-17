@@ -56,7 +56,15 @@ Structure of components is modular. Reusable chilldren components as **ProductCa
 Redux state has its own dedicated folder, as it is used by all HerbsMe module components. Its placement provides easy access to state for all of them. `/src/HerbsMe/redux/selectors.ts` contains selectors for state's specific values while `index.ts` has action creators and reducer which are chnging the application state. 
 
 ### Sample screenshots
+![HerbsMe overview](public/general-overview.png?raw=true "HerbsMe overview")
+![HerbsMe sorting view](public/sorting.png?raw=true "HerbsMe sorting")
+![HerbsMe price filter view](public/price-filter.png?raw=true "HerbsMe price filtering")
+![HerbsMe ActionMenu view](public/product-action-menu.png?raw=true "HerbsMe product's action menu")
+![HerbsMe edit view](public/edit-product.png?raw=true "HerbsMe edit product")
+![HerbsMe delete view](public/delete-product.png?raw=true "HerbsMe delete product")
+![HerbsMe add view](public/add-new-product.png?raw=true "HerbsMe add new product")
 
 
+______________
 
 To learn React, check out the [React documentation](https://reactjs.org/).

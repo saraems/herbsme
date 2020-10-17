@@ -25,7 +25,7 @@ const S = {
     display: flex;
     width: calc(100%-2rem);
     justify-content: space-between;
-    padding: 1rem 1rem 0;
+    padding: 1rem;
   `,
   SortByWrapper: styled.div`
     display: flex;
@@ -50,14 +50,14 @@ const S = {
     align-items: center;
     justify-content: flex-end;
     width: calc(100%-2rem);
-    padding: 1rem 1rem 0;
+    padding: 2rem 1rem 0;
   `,
   AddProductBtn: styled(CustomHerbsMeButton)`
     height: 50px;
     width: 150px;
     margin: 0;
     font-weight: bold;
-    background-color: #1c890a;
+    background-color: #677445;
   `,
 };
 const HerbsMe: FC = () => {
