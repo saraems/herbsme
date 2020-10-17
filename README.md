@@ -47,6 +47,7 @@ The main app file is placed in `/src/index.tsx`. The file renders core, parent c
 Global application's store is kept in a separate folder under `/src/store` path. This architecture decision is made to allow applications growth while adding new modules next to HerbsMe page. New module's reducers can be easily combined and added to the global store. 
 
 ### Main HerbsMe component
+
 ![HerbsMe component's structure](public/HerbsMe-structure.png?raw=true "HerbsMe component")
 
 HerbsMe component is placed in `/src/HerbsMe/index.tsx` it contains dialogs, top navigation, filters and sorting options for products. It also renders products cards returned in mapping of **productsList** table. Table of products is hardcoded in the application under `/src/HerbsMe/constants.ts` and represents the initial state of protucts which can be modified within the app. Main component's directory has also `types.ts` files which has reusable types across this directory. Lsst but not least in `hooks.ts` are a helper for producing local inputs state, those methods are universal so they have been placed heigher in files structure to enable it's exstraction if needed. 
@@ -56,6 +57,7 @@ Structure of components is modular. Reusable chilldren components as **ProductCa
 Redux state has its own dedicated folder, as it is used by all HerbsMe module components. Its placement provides easy access to state for all of them. `/src/HerbsMe/redux/selectors.ts` contains selectors for state's specific values while `index.ts` has action creators and reducer which are chnging the application state. 
 
 ### Sample screenshots
+
 ![HerbsMe overview](public/general-overview.png?raw=true "HerbsMe overview")
 ![HerbsMe sorting view](public/sorting.png?raw=true "HerbsMe sorting")
 ![HerbsMe price filter view](public/price-filter.png?raw=true "HerbsMe price filtering")
@@ -63,3 +65,10 @@ Redux state has its own dedicated folder, as it is used by all HerbsMe module co
 ![HerbsMe edit view](public/edit-product.png?raw=true "HerbsMe edit product")
 ![HerbsMe delete view](public/delete-product.png?raw=true "HerbsMe delete product")
 ![HerbsMe add view](public/add-new-product.png?raw=true "HerbsMe add new product")
+
+### Improvements ideas
+
+- add layout grid for products in the list to keep them in place
+- improve adding new product flow by adding `last-modifiacation-date` field to the product and after adding new sort products by this accessor
+- add error messages to ProductDialog for required inputs
+- open edit ProductDialog on product card clicked
